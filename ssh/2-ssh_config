@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#Client configuration file. Connect to server wthout typing password.
+Host *
+User ubuntu
+IdentityFile ~/.ssh/school
