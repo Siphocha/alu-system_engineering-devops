@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+#insttall nginx on server and it's on port 80
+
+apt-get update
+apt-get install -y nginx
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+service nginx restart

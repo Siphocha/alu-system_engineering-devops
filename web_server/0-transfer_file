@@ -11,6 +11,6 @@ host="$2"
 user="$3"
 ssh_key_public="$4"
 
-#transfer the data from server to server
+#transfer the data from server to server(username is scp)
 scp -o "StrictHostKeyChecking=no" -i "$ssh_key_public" "$file" "$user"@"$host":~
 exit 0
