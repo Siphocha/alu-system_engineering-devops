@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# install load balancer
+#Installling and configuring HAproxy on lb-01 server(third one)
 
-
-echo -e "Updating and doing some minor checks...\n"
+echo -e "Updating server properties AND PURPOSE....\n"
 
 function install() {
 	command -v "$1" &> /dev/null
 
-	#shellcheck disable=SC2181
+	#disable=SC2181 / disabling shellcheck, first server properties
 	if [ $? -ne 0 ]; then
 		echo -e "	Installing: $1\n"
 		sudo apt-get update -y -qq && \
@@ -20,7 +19,7 @@ function install() {
 
 install haproxy #install haproxy
 
-echo -e "\nSetting up some minor stuff.\n"
+echo -e "\nSetting up even more stuff \n"
 
 # backup default server config file
 sudo cp /etc/haproxy/haproxy.cfg haproxy_default.backup
@@ -43,8 +42,6 @@ backend clickviral-tech-backend
     server 6162-web-01 34.224.56.2:80 check
     server 6162-web-02 54.147.169.8:80 check
 "
-
-# shellcheck disable=SC2154
 echo "$server_config" | sudo dd status=none of=/etc/haproxy/haproxy.cfg
 
 # enable haproxy to be started by init script
