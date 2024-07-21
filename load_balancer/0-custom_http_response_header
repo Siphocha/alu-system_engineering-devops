@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-#this configures new server to be identical to primary one but --
-#Only for load bearing purposes
+# duplicate web-01 to web-02
+# these scripts are an upgrade from the web-server scripts...
 
-echo -e "Updating server properties AND PURPOSE....\n"
+# uncomment to see the script run in action
+#set -x
 
-function install(){
-    command -v "$1" &> /dev/null
+echo -e "Updating and doing some minor checks...\n"
 
-    #disable=SC2181 / disabling shellcheck, first server properties
+function install() {
+	command -v "$1" &> /dev/null
+
+	#shellcheck disable=SC2181
 	if [ $? -ne 0 ]; then
 		echo -e "	Installing: $1$\n"
 		sudo apt-get update -y -qq && \
@@ -18,13 +21,14 @@ function install(){
 	fi
 }
 
-install nginx
+install nginx #install nginx
+
 echo -e "\nSetting up some minor stuff.\n"
 
-#Firewall wont touch NGINX
+# allowing nginx on firewall
 sudo ufw allow 'Nginx HTTP'
 
-#Give the user ownership to website files
+# Give the user ownership to website files for easy editing
 if [ -d "/var/www" ]; then
 	sudo chown -R "$USER":"$USER" /var/www
 	sudo chmod -R 755 /var/www
@@ -34,7 +38,7 @@ else
 	sudo chmod -R 755 /var/www
 fi
 
-#create directories if not present
+# create directories if not present
 for dir in /var/www/{html,error}; do
 	if ! [ -d "$dir" ]; then
 		mkdir -p "$dir"
