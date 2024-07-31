@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Start apache to return Hello Holberton page (from last tasks)
+service apache2 start
